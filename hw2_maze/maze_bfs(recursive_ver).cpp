@@ -50,13 +50,11 @@ int main(){
 	
 	printf("請輸入迷宮資料：\n");
 	for(int i=1;i<=m;i++){
-		int j=1;
-		char y;
-		do{
+		for(int j=1;j<=n;j++){
 			scanf("%d",&data[i][j]);
-			j++;
-		}while((y=getchar())!='\n');
+		}
 	}
+
 	
 	//設定起點終點
 	point *start=new point;
@@ -71,6 +69,8 @@ int main(){
 	bfs(data,vis,start,target,path);
 	print(path);
 }
+
+
 
 void* new2d(int h, int w, int size)
 {
@@ -137,10 +137,4 @@ void print(int **path){
 	}
 }
 
-	
-//	for(int i=0;i<m+2;i++){
-//		for(int j=0;j<n+2;j++){
-//			printf("%d ",vis[i][j]);
-//		}
-//		printf("\n");
-//	}
+
