@@ -43,7 +43,31 @@ void SparseMatrix(int** array, term* sparse,int row,int col){
 
 }
 void FastTranspose(term* a,term* b){
-	int row_terms[]
+	int *row_terms, *start_pos;
+	int i,j;
+	row_terms=new int[a[0].col];
+	start_pos=new int[a[0].col];
+	b[0].row=a[0].col;
+	b[0].col=a[0].row;
+	b[0].value=a[0].value;
+	if(a[0].value>0){		//陣列不為空 
+		for(i=0;i<a[0].col;i++){	//初始化row_terms 
+			row_terms[i]=0;
+		}
+		for(i=1;i<a[0].value;i++){	//針對對應的row記數 
+			row_terms[a[i].col]++;
+		}
+		start_pos[0]=1;					//初始化標號
+		for(i=1;i<a[0].col;i++){		//標號 
+			start_pos[i]=start_pos[i-1]+row_terms[i-1];
+		}
+		for(i=1;i<=a[0].value;i++){ 
+			j=start_pos[a[i].col]++;
+			b[j].row=a[i].col;
+			b[j].col=a[i].row;
+			b[j].value=a[i].value;
+		} 
+	}
 }
 void PrintSparseMatrix(term* sparse){
 	printf("index     row     col     value\n");
@@ -51,6 +75,12 @@ void PrintSparseMatrix(term* sparse){
 		printf("%d%10d%10d%10d\n",i,sparse[i].row,sparse[i].col,sparse[i].value);
 	}
 }
+
+void Multi(term* a, term* b, term* c){	//b為已轉置的矩陣,計算a.bT的結果並存於c 
+	c[0].row=a[0].row;
+	c[0].col=b[0].row;
+}
+
 int main(){
 	int **array1, **array2;
 	int row1,col1,row2,col2;
@@ -63,5 +93,24 @@ int main(){
 	SparseMatrix(array1,a1,row1,col1);
 	SparseMatrix(array2,a2,row2,col2);
 	FastTranspose(a2,a2T);
+	term answer[MAXTERMS];
+	Multi(a1,a2T,answer);
+	PrintSparseMatrix(answer);
 
 }
+
+//測試用 
+int main(){
+	int **array1;
+	int row1,col1;
+	scanf("%d %d",&row1,&col1);
+	array1=MatrixInput(row1,col1);
+	term a1[MAXTERMS], a1T[MAXTERMS];
+	SparseMatrix(array1,a1,row1,col1);
+	PrintSparseMatrix(a1);
+	FastTranspose(a1,a1T);
+	PrintSparseMatrix(a1T);
+	
+}
+
+
