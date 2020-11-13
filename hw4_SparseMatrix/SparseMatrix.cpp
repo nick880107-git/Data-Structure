@@ -54,11 +54,11 @@ void FastTranspose(term* a,term* b){
 		for(i=0;i<a[0].col;i++){	//初始化row_terms 
 			row_terms[i]=0;
 		}
-		for(i=1;i<a[0].value;i++){	//針對對應的row記數 
+		for(i=1;i<=a[0].value;i++){	//針對對應的row記數 
 			row_terms[a[i].col]++;
 		}
 		start_pos[0]=1;					//初始化標號
-		for(i=1;i<a[0].col;i++){		//標號 
+		for(i=1;i<=a[0].col;i++){		//標號 
 			start_pos[i]=start_pos[i-1]+row_terms[i-1];
 		}
 		for(i=1;i<=a[0].value;i++){ 
@@ -70,9 +70,9 @@ void FastTranspose(term* a,term* b){
 	}
 }
 void PrintSparseMatrix(term* sparse){
-	printf("index     row     col     value\n");
-	for(int i=0;i<=sparse[0].value;i++){
-		printf("%d%10d%10d%10d\n",i,sparse[i].row,sparse[i].col,sparse[i].value);
+
+	for(int i=1;i<=sparse[0].value;i++){
+		printf("%d %d %d\n",sparse[i].row,sparse[i].col,sparse[i].value);
 	}
 }
 
@@ -94,10 +94,11 @@ void StoreSum(term* c, int index, int row, int col, int value){
 	c[index].row=row;
 	c[index].col=col;
 	c[index].value=value;
+
 }
 
 void Multi(term* a, term* b, term* c){	//b為已轉置的矩陣，並將計算結果存於c 
-	int d_index;
+	int d_index=0;
 	int row=a[0].row;					//紀錄c[row][col]用的index 
 	int col;
 	int i,j;							//紀錄當前a,b矩陣的index 
@@ -117,6 +118,7 @@ void Multi(term* a, term* b, term* c){	//b為已轉置的矩陣，並將計算結果存於c
 				for(;b[j].row==col;j++)	//因為a會超過表示當前b的row已計算完畢，前往下一個row的位置 
 					;
 				col=b[j].row;
+
 			}
 			else if(b[j].row!=col){		//b矩陣讀取超過當前row →當前row已計算完畢 
 				if(sum!=0){
@@ -126,6 +128,7 @@ void Multi(term* a, term* b, term* c){	//b為已轉置的矩陣，並將計算結果存於c
 				}
 				i=a_baseIndex;			//a矩陣回到當前row第一個值的index，準備下一個col的計算 
 				col=b[j].row;
+
 			}
 			else {
 				switch(compare(a[i].col,b[j].col)){
@@ -179,18 +182,6 @@ int main(){
 	PrintSparseMatrix(answer);
 }
 
-////測試用 
-//int main(){
-//	int **array1;
-//	int row1,col1;
-//	scanf("%d %d",&row1,&col1);
-//	array1=MatrixInput(row1,col1);
-//	term a1[MAXTERMS], a1T[MAXTERMS];
-//	SparseMatrix(array1,a1,row1,col1);
-//	PrintSparseMatrix(a1);
-//	FastTranspose(a1,a1T);
-//	PrintSparseMatrix(a1T);
-//	
-//}
+
 
 
