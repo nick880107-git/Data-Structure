@@ -145,8 +145,14 @@ void rev(Nodeptr *start){
 void show(Nodeptr start){
 	Nodeptr head=start;
 	while(head){
-		printf("%d ",head->data);
-		head=head->link;
+		printf("%d",head->data);
+		if(head->link){
+			head=head->link;
+			printf(" ");
+		}
+		else
+			break;
+		
 	}
 	printf("\n");
 }
