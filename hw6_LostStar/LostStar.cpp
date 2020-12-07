@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #define MAXMAP 101
 #define MAXSTACK 100
 
@@ -21,20 +22,9 @@ void search();
 void push(point pt);
 void pop();
 
-void show(){					//檢查迷宮長相用 
-	for(int i=0;i<=m+1;i++){
-		for(int j=0;j<=n+1;j++){
-			printf("%c",map[i][j]);
-		}
-		printf("\n");
-	}
-	for(int i=0;i<=m+1;i++){
-		for(int j=0;j<=n+1;j++){
-			printf("%d",vis[i][j]);
-		}
-		printf("\n");
-	}
-}
+void show();
+void createMaze();
+
 int main(){	
 	scanf("%d %d",&m,&n);
 	while(m!=0 && n!=0){
@@ -61,6 +51,19 @@ int main(){
 	}
 	
 }
+
+//int main(){		//自動生成測試 
+//	createMaze();
+//	for(int t=0;t<n+2;t++){
+//		map[0][t]='.';
+//		map[m+1][t]='.';
+//	} 
+//	for(int t=0;t<m+2;t++){
+//		map[t][0]='.';
+//		map[t][n+1]='.';
+//	}
+//	search();
+//}
 
 void push(point pt){
 	top++;
@@ -111,4 +114,33 @@ void dfs(int lost){
 	}
 	if(isLost==0)
 		count+=1;
+}
+
+void show(){					//檢查迷宮長相用 
+	printf("%d %d\n",m,n);
+	for(int i=0;i<=m+1;i++){
+		for(int j=0;j<=n+1;j++){
+			printf("%c",map[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void createMaze(){
+	srand(time(NULL));
+	m=(rand()%20)+1;
+	n=(rand()%20)+1;
+	int value=0;
+	for(int i=1;i<=m;i++){
+		for(int j=1;j<=n;j++){
+			value=rand()%2;
+			if(value==1)
+				map[i][j]='.';
+			else
+				map[i][j]='*';
+				vis[i][j]=0;
+		}
+	}
+	show();
+
 }
