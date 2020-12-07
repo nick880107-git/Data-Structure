@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define MAXMAP 101
-#define MAXSTACK 100
+#define MAXMAP 103
+#define MAXSTACK 1000
 
 struct point{
 	int row;
